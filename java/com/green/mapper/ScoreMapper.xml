@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.green.mapper.ScoreMapper">
+	<select id="getAll" resultType="com.green.vo.ScoreVO">
+		select * from tbl_score
+	</select>
+	<select id="get" resultType="com.green.vo.ScoreVO" parameterType="long">
+		select * from tbl_score where sno = #{sno}
+	</select>
+	<insert id="insertScore" parameterType="com.green.vo.ScoreVO">
+		insert into tbl_score(sno, sname, spassword, korea, math, eng, total, avg) values
+							(SEQ_Score.nextval, #{sname}, #{spassword}, #{korea}, #{math}, #{eng},#{total}, #{avg})
+		
+	</insert>
+	<update id="updateScore" parameterType="com.green.vo.ScoreVO">
+		update tbl_score set sname=#{sname}, korea=#{korea}, math=#{math}, eng=#{eng},total=#{total}, avg=#{avg} where sno=#{sno}
+	</update>
+	<delete id="deleteScore" parameterType="long" >
+		delete from tbl_score where sno=#{sno}
+	</delete>
+	<insert id="insertKeyScore">
+		<selectKey keyProperty="sno" order="BEFORE" resultType="int">
+			select seq_score.nextval from dual
+		</selectKey>
+		insert into tbl_score (sno,sname,spassword,korea,math,eng, total, avg) values
+								(sno,sname=#{sname}, korea=#{korea}, math=#{math}, eng=#{eng},total=#{total}, avg=#{avg})
+	</insert>
+</mapper>
